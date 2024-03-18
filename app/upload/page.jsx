@@ -22,11 +22,14 @@ const Upload = () => {
       const symmetricKey = crypto.randomBytes(32);
       console.log("Symmetric Key:", symmetricKey.toString("hex"));
 
-      const { encryptedBlob, encryptedFileName, symmetricKey: symmetricKeyHex } = await encryptFileWithKey(file[0], symmetricKey);
+      const {
+        encryptedBlob,
+        encryptedFileName,
+        symmetricKey: symmetricKeyHex,
+      } = await encryptFileWithKey(file[0], symmetricKey);
 
-const formData = new FormData();
-formData.append("file", encryptedBlob, encryptedFileName); // Use encryptedBlob instead of encryptedData
-
+      const formData = new FormData();
+      formData.append("file", encryptedBlob, encryptedFileName); // Use encryptedBlob instead of encryptedData
 
       const resFile = await axios({
         method: "post",
@@ -34,7 +37,8 @@ formData.append("file", encryptedBlob, encryptedFileName); // Use encryptedBlob 
         data: formData,
         headers: {
           pinata_api_key: "514787962d7d2725022d",
-          pinata_secret_api_key: "1486a1291f9ecc0cc8de3b60eb538a225b6f1ee2b193edf924f7faec2eec2588",
+          pinata_secret_api_key:
+            "1486a1291f9ecc0cc8de3b60eb538a225b6f1ee2b193edf924f7faec2eec2588",
           "Content-Type": "multipart/form-data",
         },
       });
@@ -65,7 +69,11 @@ formData.append("file", encryptedBlob, encryptedFileName); // Use encryptedBlob 
   const retrieveFile = (e) => {
     const fileList = Array.from(e.target.files);
     setFile(fileList);
-    setFileName(fileList.length > 1 ? `${fileList.length} files selected` : fileList[0].name);
+    setFileName(
+      fileList.length > 1
+        ? `${fileList.length} files selected`
+        : fileList[0].name
+    );
   };
 
   return (
@@ -84,7 +92,10 @@ formData.append("file", encryptedBlob, encryptedFileName); // Use encryptedBlob 
               onChange={retrieveFile}
               multiple
             />
-            <span className="textArea text-black"> Image: <u>{fileName}</u></span>
+            <span className="textArea text-black">
+              {" "}
+              Image: <u>{fileName}</u>
+            </span>
             <button type="submit" className="upload" disabled={!file}>
               Upload
             </button>

@@ -14,23 +14,22 @@ function encryptFile(fileBuffer, symmetricKey) {
   return { encryptedData };
 }
 
-// Modify the encryptFileWithKey function to accept file data directly
 export function encryptFileWithKey(file, symmetricKey) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
     reader.onload = function () {
-      const fileBuffer = Buffer.from(this.result); // Convert file data to buffer
+      const fileBuffer = Buffer.from(this.result); 
       const { encryptedData } = encryptFile(fileBuffer, symmetricKey);
       const fileName = path.basename(file.name);
       const fileExt = path.extname(fileName).slice(1);
       const encryptedFileName = `${fileName}.enc`;
       const symmetricKeyHexString = bufferToHexString(symmetricKey);
 
-      const encryptedBlob = new Blob([encryptedData]); // Create a Blob from encryptedData
+      const encryptedBlob = new Blob([encryptedData]); 
 
       resolve({
-        encryptedBlob, // Pass the Blob instead of the encryptedData
+        encryptedBlob, 
         encryptedFileName,
         symmetricKey: symmetricKeyHexString,
       });
