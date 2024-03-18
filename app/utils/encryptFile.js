@@ -1,44 +1,46 @@
-const fs = require("fs");
-const crypto = require("crypto");
-const path = require("path");
+import crypto from "crypto";
+import path from "path";
 
 function bufferToHexString(buffer) {
   return buffer.toString("hex");
 }
 
-function encryptFile(filePath, symmetricKey) {
-  const fileContent = fs.readFileSync(filePath);
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv("aes-256-cbc", symmetricKey, iv);
-  let encryptedData = cipher.update(fileContent);
+function encryptFile(fileBuffer, symmetricKey) {
+  console.log("Type of fileBuffer:", typeof fileBuffer);
+  console.log("Content of fileBuffer:", fileBuffer);
+  const cipher = crypto.createCipher("aes-256-cbc", symmetricKey);
+  let encryptedData = cipher.update(fileBuffer);
   encryptedData = Buffer.concat([encryptedData, cipher.final()]);
-  return { encryptedData, iv };
+  return { encryptedData };
 }
 
-function decryptFile(encryptedData, symmetricKey, iv) {
-  const decipher = crypto.createDecipheriv("aes-256-cbc", symmetricKey, iv);
-  let decryptedData = decipher.update(encryptedData);
-  decryptedData = Buffer.concat([decryptedData, decipher.final()]);
-  return decryptedData;
+// Modify the encryptFileWithKey function to accept file data directly
+export function encryptFileWithKey(file, symmetricKey) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = function () {
+      const fileBuffer = Buffer.from(this.result); // Convert file data to buffer
+      const { encryptedData } = encryptFile(fileBuffer, symmetricKey);
+      const fileName = path.basename(file.name);
+      const fileExt = path.extname(fileName).slice(1);
+      const encryptedFileName = `${fileName}.enc`;
+      const symmetricKeyHexString = bufferToHexString(symmetricKey);
+
+      const encryptedBlob = new Blob([encryptedData]); // Create a Blob from encryptedData
+
+      resolve({
+        encryptedBlob, // Pass the Blob instead of the encryptedData
+        encryptedFileName,
+        symmetricKey: symmetricKeyHexString,
+      });
+    };
+
+    reader.onerror = function (error) {
+      reject(error);
+    };
+
+    reader.readAsArrayBuffer(file); // Read file as ArrayBuffer
+  });
 }
 
-const symmetricKey = crypto.randomBytes(32);
-console.log("Symmetric Key:", symmetricKey);
-
-const filePath = "test.js";
-const fileExt = filePath.split(".")[1];
-const fileName = filePath.split(".")[0];
-
-const symmetricKeyHexString = bufferToHexString(symmetricKey);
-console.log("Symmetric Key Hex String:", symmetricKeyHexString);
-
-const { encryptedData, iv } = encryptFile(filePath, symmetricKey);
-const outDirPath_enc = path.join(__dirname, "encrypts");
-fs.writeFileSync(`${outDirPath_enc}/${fileName}_enc.enc`, encryptedData);
-
-const encryptedFileContent = fs.readFileSync(
-  `${outDirPath_enc}/${fileName}_enc.enc`
-);
-const outDirPath_dec = path.join(__dirname, "decrypts");
-const decryptedData = decryptFile(encryptedFileContent, symmetricKey, iv);
-fs.writeFileSync(`${outDirPath_dec}/${fileName}_dec.${fileExt}`, decryptedData);

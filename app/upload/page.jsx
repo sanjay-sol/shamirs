@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-import JSZip from "jszip";
+import crypto from "crypto";
+import path from "path";
+import { encryptFileWithKey } from "../utils/encryptFile.js";
 
 const Upload = () => {
   const [file, setFile] = useState(null);
@@ -10,56 +12,58 @@ const Upload = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (file) {
-      try {
-        let formData;
-        if (file.length > 1) {
-          const zip = new JSZip();
-          Array.from(file).forEach((f, index) => {
-            zip.file(`${f.name ? f.name : `file${index}`}`, f);
-          });
-          formData = await zip.generateAsync({ type: "blob" });
-        } else {
-            formData = new FormData();
-            formData.append("file", file[0]);
-            console.log(file[0]);
-        }
-
-        const resFile = await axios({
-          method: "post",
-          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          data: formData,
-          headers: {
-             pinata_api_key: "514787962d7d2725022d",
-            pinata_secret_api_key:
-              "1486a1291f9ecc0cc8de3b60eb538a225b6f1ee2b193edf924f7faec2eec2588",
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-          const data = {
-              public_key: "public_key",
-              name: file[0]?.name,
-              ipfshash: resFile?.data?.IpfsHash,
-              size: file[0]?.size,
-              keys: ["key1", "key2", "key3", "key4", "key5"]
-          }
-          const res = await axios.post("/api/ipfs", data);
-          console.log("res", res);
-          
-        setipfshash(resFile.data.IpfsHash);
-      } catch (e) {
-        alert("Can't upload file to Pinata");
-      }
+    if (!file || !file[0]) {
+      alert("Please select a file");
+      return;
     }
+    try {
+      console.log("File:", file[0]);
+
+      const symmetricKey = crypto.randomBytes(32);
+      console.log("Symmetric Key:", symmetricKey.toString("hex"));
+
+      const { encryptedBlob, encryptedFileName, symmetricKey: symmetricKeyHex } = await encryptFileWithKey(file[0], symmetricKey);
+
+const formData = new FormData();
+formData.append("file", encryptedBlob, encryptedFileName); // Use encryptedBlob instead of encryptedData
+
+
+      const resFile = await axios({
+        method: "post",
+        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        data: formData,
+        headers: {
+          pinata_api_key: "514787962d7d2725022d",
+          pinata_secret_api_key: "1486a1291f9ecc0cc8de3b60eb538a225b6f1ee2b193edf924f7faec2eec2588",
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const data = {
+        public_key: "public_key",
+        name: encryptedFileName,
+        ipfshash: resFile.data.IpfsHash,
+        size: file[0].size,
+        keys: [symmetricKeyHex],
+      };
+
+      const res = await axios.post("/api/ipfs", data);
+      console.log("Response:", res.data);
+
+      setipfshash(resFile.data.IpfsHash);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Can't upload file to Pinata");
+    }
+
+    // Reset form
     alert("Image Uploaded Successfully");
     setFileName("Select another file");
     setFile(null);
   };
 
   const retrieveFile = (e) => {
-    const data = e.target.files;
-    const fileList = Array.from(data);
+    const fileList = Array.from(e.target.files);
     setFile(fileList);
     setFileName(fileList.length > 1 ? `${fileList.length} files selected` : fileList[0].name);
   };
