@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import axios from "axios";
 
 export default function Home() {
   const [data, setData] = useState([]);
+    const [viewIndex, setViewIndex] = useState(null);
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get("/api/ipfs");
@@ -14,22 +14,25 @@ export default function Home() {
     }
     fetchData();
   }, []);
-    const downloadFile = async (hash, fileName) => {
-      try {
-        const response = await fetch(`https://ipfs.io/ipfs/${hash}`);
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", fileName);
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode.removeChild(link);
-      } catch (error) {
-        console.error("Error downloading file:", error);
-      }
-    };
-   
+  const downloadFile = async (hash, fileName) => {
+    try {
+      const response = await fetch(`https://ipfs.io/ipfs/${hash}`);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
+  const toggleViewKeys = (itemId) => {
+    setViewIndex((prevIndex) => (prevIndex === itemId ? null : itemId));
+  };
+
 
   return (
     <>
@@ -46,10 +49,11 @@ export default function Home() {
                 Download
               </button>
             </div>
-            {item.keys.map((key, index) => (
-              <p key={index}>{key}</p>
-            ))}
-            
+            <button onClick={() => toggleViewKeys(item._id)}>View Keys</button>
+            <div>
+              {viewIndex === item._id &&
+                item.keys.map((key, keyIndex) => <p key={keyIndex}>{key}</p>)}
+            </div>
           </div>
         ))}
       </main>

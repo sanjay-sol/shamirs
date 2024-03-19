@@ -44,7 +44,7 @@ const Upload = () => {
       });
         
         let shares = exportKeys(symmetricKeyHex, 5, 2);
-        console.log(shares);
+        // console.log(shares);
 
             let keys = [];
             for(let i = 0; i < shares.length; i++) {
@@ -61,7 +61,6 @@ const Upload = () => {
 
         const res = await axios.post("/api/ipfs", data);
         
-    //   console.log("Response:", res.data);
 
       setipfshash(resFile.data.IpfsHash);
     } catch (error) {
@@ -87,7 +86,7 @@ const Upload = () => {
 
   return (
     <>
-      <div className="top1">
+      <div className="top1 text-white">
         <strong className="text-xxl-center">UPLOAD TO IPFS NETWORK</strong>
         <div className="top">
           <form className="form" onSubmit={handleSubmit}>
