@@ -27,7 +27,6 @@ export function encryptFileWithKey(file, symmetricKey) {
       const symmetricKeyHexString = bufferToHexString(symmetricKey);
 
       const encryptedBlob = new Blob([encryptedData]); 
-
       resolve({
         encryptedBlob, 
         encryptedFileName,

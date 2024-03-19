@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import crypto from "crypto";
 import { encryptFileWithKey } from "../utils/encryptFile.js";
+import { exportKeys } from "../utils/exportkeys.js";
 
 const Upload = () => {
   const [file, setFile] = useState(null);
@@ -41,17 +42,26 @@ const Upload = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+        
+        let shares = exportKeys(symmetricKeyHex, 5, 2);
+        console.log(shares);
+
+            let keys = [];
+            for(let i = 0; i < shares.length; i++) {
+                keys.push(`${shares[i][1]}`);
+            }
 
       const data = {
         public_key: "public_key",
         name: encryptedFileName,
         ipfshash: resFile.data.IpfsHash,
         size: file[0].size,
-        keys: [symmetricKeyHex],
+        keys: [...keys, symmetricKeyHex],
       };
 
-      const res = await axios.post("/api/ipfs", data);
-      console.log("Response:", res.data);
+        const res = await axios.post("/api/ipfs", data);
+        
+    //   console.log("Response:", res.data);
 
       setipfshash(resFile.data.IpfsHash);
     } catch (error) {
