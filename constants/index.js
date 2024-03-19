@@ -25,9 +25,9 @@ export const sidebarLinks = [
     label: "Government",
   },
   {
-    imgURL: "/assets/user.svg",
-    route: "/profile",
-    label: "Profile",
+    imgURL: "/assets/search.svg",
+    route: "/hash",
+    label: "Sign",
   },
 ];
 

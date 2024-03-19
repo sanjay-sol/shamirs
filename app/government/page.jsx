@@ -132,8 +132,6 @@ function Page() {
       connectWallet();  
     },[]);
 
-
-        // Function to fetch data from the smart contract
         const fetchData = async () => {
             try {
                 const result = await contract.getData();
