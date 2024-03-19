@@ -1,12 +1,6 @@
-const readline = require("readline-sync");
+// shamirs.js
+
 const bigInt = require("big-integer");
-const mime = require("mime-types");
-let PRIME = bigInt(2).pow(127).minus(1);
-
-
-const SECRET = readline.question("Enter secret: ");
-const SHARES = readline.questionInt("Enter no. of shares: ");
-const THRESHOLD = readline.questionInt("Enter threshold: ");
 
 function stringToBytes(str) {
   let byteArray = [];
@@ -36,6 +30,8 @@ function choosePrime(n, secretInt) {
 }
 
 function generateRandomCoefficients(n) {
+  let PRIME = bigInt(2).pow(127).minus(1); // Initialize PRIME here
+
   let coefficients = [];
   for (let i = 0; i < n; i++) {
     let currCoefficient = bigInt.randBetween(1, PRIME.minus(1));
@@ -45,6 +41,8 @@ function generateRandomCoefficients(n) {
 }
 
 function evaluatePolynomial(coefficients, x) {
+  let PRIME = bigInt(2).pow(127).minus(1); // Add PRIME here
+
   let answer = bigInt(0);
   let acc = bigInt(1);
   for (let i = coefficients.length - 1; i >= 0; i--) {
@@ -59,12 +57,9 @@ function evaluatePolynomial(coefficients, x) {
 }
 
 function SSS(secret, n, t) {
-  let secretInt = stringToInteger(secret);
+  let PRIME = bigInt(2).pow(127).minus(1);
 
-  console.log();
-  console.log(`Secret as`, secretInt);
-  console.log(`Secret as Hex { value: 0x${secretInt.toString(16)} }`);
-  console.log();
+  let secretInt = stringToInteger(secret);
 
   let degree = t - 1;
   let numberOfKeys = n;
@@ -85,6 +80,8 @@ function SSS(secret, n, t) {
 }
 
 function getCoefficientAtZero(points) {
+  let PRIME = bigInt(2).pow(127).minus(1);
+
   let p1 = bigInt(1);
   for (let i = 0; i < points.length; i++) {
     let xCoordinate = points[i][0];
@@ -129,6 +126,9 @@ function hexStringToByteArray(hex) {
 
 function integerToString(intSecret) {
   let hexString = intSecret.toString(16);
+  if (hexString.length % 2 !== 0) {
+    hexString = "0" + hexString;
+  }
 
   let byteArray = hexStringToByteArray(hexString);
 
@@ -145,26 +145,7 @@ function generateSecret(points) {
   return integerToString(integerSecret);
 }
 
-
-let points = SSS(SECRET, SHARES, THRESHOLD);
-console.log("Shares:");
-for (let point of points) {
-  console.log(`(${point[0]}, ${point[1]})`);
-}
-
-let logged = false;
-console.log();
-for (let i = SHARES; i >= 1; i--) {
-  let recoveredSecret = generateSecret(points.slice(0, i));
-  if (!logged && i < THRESHOLD) {
-    console.log();
-    console.log(
-      `Invalid recovered secrets when using shares less than threshold: `
-    );
-    logged = true;
-  }
-  console.log(
-    `Recovered secret with ${i} shares: ${recoveredSecret}`,
-    stringToInteger(recoveredSecret)
-  );
-}
+module.exports = {
+  SSS,
+  generateSecret,
+};
