@@ -6,8 +6,8 @@ export const sidebarLinks = [
   },
   {
     imgURL: "/assets/search.svg",
-    route: "/search",
-    label: "Search",
+    route: "/decrypt",
+    label: "Decrypt",
   },
   {
     imgURL: "/assets/heart.svg",
@@ -21,8 +21,8 @@ export const sidebarLinks = [
   },
   {
     imgURL: "/assets/community.svg",
-    route: "/communities",
-    label: "Communities",
+    route: "/government",
+    label: "Government",
   },
   {
     imgURL: "/assets/user.svg",
