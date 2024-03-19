@@ -2,7 +2,6 @@
 import { useState } from "react";
 import axios from "axios";
 import crypto from "crypto";
-import path from "path";
 import { encryptFileWithKey } from "../utils/encryptFile.js";
 
 const Upload = () => {
