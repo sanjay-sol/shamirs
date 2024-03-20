@@ -1,6 +1,8 @@
 
 const bigInt = require("big-integer");
 let PRIME = bigInt(2).pow(127).minus(1);
+// console.log(PRIME);
+
 
 export function exportKeys(SECRET, SHARES, THRESHOLD) {
   function stringToBytes(str) {

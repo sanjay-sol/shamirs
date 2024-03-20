@@ -12,7 +12,12 @@ const Upload = () => {
   const [key, setKey] = useState("");
   const [ipfsHash, setIpfsHash] = useState("");
   const [data, setData] = useState([]);
-  const [contract, setContract] = useState(null);
+    const [contract, setContract] = useState(null);
+    
+    // let PRIME = bigInt(2).pow(127).minus(1);
+    // let PRIME2 = BigInt(2 ** 127 - 1);
+    // // console.log(PRIME);
+    // console.log(PRIME2);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
