@@ -35,8 +35,8 @@ export default function Home() {
 
   return (
     <div className="w-full relative overflow-x-auto">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-200 dark:text-gray-400">
+        <thead className="text-xs text-gray-200 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
               Name
@@ -59,28 +59,37 @@ export default function Home() {
           </tr>
         </thead>
         <tbody>
-          {data?.map((item)=>(
-            <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white overflow-hidden"
+          {data?.map((item) => (
+            <tr
+              key={item._id}
+              className="bg-slate-900 border-b dark:bg-gray-800 dark:border-gray-700"
             >
-              {item.name}
-            </th> 
-            <td className="px-6 py-4 overflow-hidden">{item.size}</td>
-            <td className="px-6 py-4 overflow-hidden">{item.ipfshash}</td>
-            <td className="px-6 py-4 overflow-hidden">{item.createdAt}</td>
-            <td className="px-6 py-4 overflow-hidden">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md bg-violet-400" onClick={()=> downloadFile(item.ipfshash,item.name)}>
-                download
-              </button>
-            </td>
-            <td>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md bg-violet-400" onClick={()=>toggleViewKeys(item._id)}>
-                Keys
-              </button>
-            </td>
-          </tr>
+              <th
+                scope="row"
+                className="px-6 py-4 font-bold text-gray-100 whitespace-nowrap dark:text-white overflow-hidden"
+              >
+                {item.name}
+              </th>
+              <td className="px-6 py-4 overflow-hidden">{item.size}</td>
+              <td className="px-6 py-4 overflow-hidden">{item.ipfshash}</td>
+              <td className="px-6 py-4 overflow-hidden">{item.createdAt}</td>
+              <td className="px-6 py-4 overflow-hidden">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md bg-violet-400"
+                  onClick={() => downloadFile(item.ipfshash, item.name)}
+                >
+                  download
+                </button>
+              </td>
+              <td>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md bg-violet-400"
+                  onClick={() => toggleViewKeys(item._id)}
+                >
+                  Keys
+                </button>
+              </td>
+            </tr>
           ))}
         </tbody>
       </table>
