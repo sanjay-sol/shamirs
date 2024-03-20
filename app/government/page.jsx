@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { ethers } from "ethers"; // Import ethers.js
+import { ethers } from "ethers";
 function Page() {
   const [data, setData] = useState([]);
 
@@ -269,74 +269,96 @@ function Page() {
   };
   return (
     <>
-      <div>
-        <div className="text-white">
-          <h1>Data Storage App</h1>
-
+      <h1 className="text-heading1-bold text-white flex justify-center">
+        Government
+      </h1>
+      <div className="flex ">
+        <div
+          className="w-1/2 h-auto p-8 py-10 mr-2 bg-gray-800  border-gray-800 rounded-lg shadow-2xl px-7"
+          data-rounded="rounded-lg"
+          data-rounded-max="rounded-full"
+        >
           <div>
-            <button onClick={fetchData}>Fetch Data</button>
+            <button
+              className="justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md bg-violet-400"
+              onClick={fetchData}
+            >
+              Fetch Data
+            </button>
           </div>
-          <div>
-            <h2>Uploaded Data:</h2>
-            -----------------
-            <ul>
-              {data &&
-                data.map((item, index) => (
-                  <li key={index}>
-                    <p>Uploader: {item[0]}</p>
-                    <p>Key: {item[1]}</p>
-                    <p>IPFS Hash: {item[2]}</p>
-                    -----------------
-                  </li>
-                ))}
-            </ul>
+          <div className="m-2 text-white">
+            {data &&
+              data.map((item, index) => (
+                <div key={index} className="block w-full px-4 py-3 mb-1  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg text-white">
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight">
+                    Uploader:
+                  </h5>
+                  <p className="font-normal overflow-x-scroll" key={index}>
+                    {item[0]}
+                  </p>
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight ">
+                    Key:
+                  </h5>
+                  <p className="font-normal overflow-x-scroll" key={index}>
+                    {item[1]}
+                  </p>
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight">
+                    IPFS hash:
+                  </h5>
+                  <p className="font-normal overflow-x-scroll" key={index}>
+                    {item[2]}
+                  </p>
+                </div>
+              ))}
           </div>
         </div>
 
-        <div className="text-white">
-          <h2>Send Message</h2>
-          <label>
-            Receiver Address:
-            <input
-              type="text"
-              className="text-black p-2 m-2"
-              value={receiver}
-              onChange={(e) => setReceiver(e.target.value)}
-            />
-          </label>
+        <div
+          className="w-1/2 h-auto p-8 py-10 bg-gray-800  border-gray-800 rounded-lg shadow-2xl px-7"
+          data-rounded="rounded-lg"
+          data-rounded-max="rounded-full"
+        >
+          <input
+            type="text"
+            className="block w-full px-4 py-3 mb-1  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
+            value={receiver}
+            onChange={(e) => setReceiver(e.target.value)}
+            placeholder="Receiver Address"
+          />
           <br />
-          <label>
-            Ipfs Hash:
-            <input
-              type="text"
-              className="text-black p-2 m-2"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </label>
+          <input
+            type="text"
+            className="block w-full px-4 py-3 mb-1  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Ipfs Hash"
+          />
           <br />
-          <label>
-            Key:
-            <input
-              type="text"
-              className="text-black p-2 m-2"
-              value={key}
-              onChange={(e) => setKey(e.target.value)}
-            />
-          </label>
+          <input
+            type="text"
+            className="block w-full px-4 py-3 mb-1  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
+            value={key}
+            onChange={(e) => setKey(e.target.value)}
+            placeholder="Key"
+          />
           <br />
-          <label>
-            Any message:
-            <input
-                          type="text"
-                className="text-black p-2 m-2"
-              value={place}
-              onChange={(e) => setPlace(e.target.value)}
-            />
-          </label>
+          <input
+            type="text"
+            className="block w-full px-4 py-3 mb-2  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
+            value={place}
+            onChange={(e) => setPlace(e.target.value)}
+            placeholder="Any message"
+          />
           <br />
-          <button onClick={sendMessage}>Send Message</button>
-          {txHash && <p>Transaction Hash: {txHash}</p>}
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md bg-violet-400"
+            onClick={sendMessage}
+          >
+            Send message
+          </button>
+          <div className="text-white">
+            {txHash && <p>Transaction Hash: {txHash}</p>}
+          </div>
         </div>
       </div>
     </>

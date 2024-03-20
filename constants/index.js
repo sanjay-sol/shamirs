@@ -5,14 +5,14 @@ export const sidebarLinks = [
     label: "Home",
   },
   {
-    imgURL: "/assets/search.svg",
+    imgURL: "/assets/more.svg",
     route: "/decrypt",
     label: "Decrypt",
   },
   {
-    imgURL: "/assets/heart.svg",
+    imgURL: "/assets/user.svg",
     route: "/activity",
-    label: "Organisation",
+    label: "Lawyer",
   },
   {
     imgURL: "/assets/create.svg",
@@ -25,7 +25,7 @@ export const sidebarLinks = [
     label: "Government",
   },
   {
-    imgURL: "/assets/search.svg",
+    imgURL: "/assets/edit.svg",
     route: "/hash",
     label: "Sign",
   },
