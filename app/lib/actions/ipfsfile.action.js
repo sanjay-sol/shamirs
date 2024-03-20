@@ -25,3 +25,13 @@ export async function getClip() {
     throw new Error(`Failed to get clip: ${error.message}`);
   }
 }
+
+export async function getClipByHash(ipfshash) {
+  try {
+    await connectToDB();
+    const clip = await Clip2.find({ ipfshash: ipfshash });
+    return clip;
+  } catch (error) {
+    throw new Error(`Failed to get clip: ${error.message}`);
+  }
+}
