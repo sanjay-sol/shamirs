@@ -209,10 +209,15 @@ export default function DecryptForm() {
         <ul>
           {messages.map((message, index) => (
             <li key={index}>
-              <strong>Name:</strong> {message.name}, <strong>Key:</strong>{" "}
-              {message.key}, <strong>Place:</strong> {message.place}
-            </li>
+              <strong>IPFS hash</strong> {message.name} <br /> <strong>Key:</strong>{" "}
+                  {message.key} <br /> <strong>Place:</strong> {message.place}
+                  <br />
+                    -----------------
+              </li>
+              
+              
           ))}
+                  
         </ul>
       </div>
     </>
