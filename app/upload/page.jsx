@@ -12,12 +12,12 @@ const Upload = () => {
   const [key, setKey] = useState("");
   const [ipfsHash, setIpfsHash] = useState("");
   const [data, setData] = useState([]);
-    const [contract, setContract] = useState(null);
-    
-    // let PRIME = bigInt(2).pow(127).minus(1);
-    // let PRIME2 = BigInt(2 ** 127 - 1);
-    // // console.log(PRIME);
-    // console.log(PRIME2);
+  const [contract, setContract] = useState(null);
+
+  // let PRIME = bigInt(2).pow(127).minus(1);
+  // let PRIME2 = BigInt(2 ** 127 - 1);
+  // // console.log(PRIME);
+  // console.log(PRIME2);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -239,46 +239,45 @@ const Upload = () => {
   const renderUi = () => {
     return (
       <div className="text-white">
-         <div className=" mt-16 md:mt-0 ">
-              <div
-                className=" h-auto p-8 py-10 bg-gray-800  border-gray-800 rounded-lg shadow-2xl px-7"
-                data-rounded="rounded-lg"
-                data-rounded-max="rounded-full"
-              >
-                <h3 className="mb-6  text-2xl font-medium text-center text-gray-300">
-                  Upload to E-Vault
-                </h3>
-                <input
-                   type="text"
+        <div className=" mt-16 md:mt-0 ">
+          <div
+            className=" h-auto p-8 py-10 bg-gray-800  border-gray-800 rounded-lg shadow-2xl px-7"
+            data-rounded="rounded-lg"
+            data-rounded-max="rounded-full"
+          >
+            <h3 className="mb-6  text-2xl font-medium text-center text-gray-300">
+              Upload to E-Vault
+            </h3>
+            <input
+              type="text"
               value={key}
               onChange={(e) => setKey(e.target.value)}
-                  className="block w-full px-4 py-3 mb-4  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
-                  data-rounded="rounded-lg"
-                  data-primary="blue-500"
-                  placeholder="Key"
-                />
-                <input
-                   type="text"
+              className="block w-full px-4 py-3 mb-4  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
+              data-rounded="rounded-lg"
+              data-primary="blue-500"
+              placeholder="Key"
+            />
+            <input
+              type="text"
               value={ipfsHash}
               onChange={(e) => setIpfsHash(e.target.value)}
-                  className="block w-full px-4 py-3 mb-4  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
-                  data-rounded="rounded-lg"
-                  data-primary="blue-500"
-                  placeholder="Ipfs hash"
-                />
-                <div className="block">
-                  <button
-                    className="w-full px-3 py-4 text-black font-bold bg-violet-400 hover:bg-violet-500 rounded-lg"
-                    data-primary="blue-600"
-                    data-rounded="rounded-lg"
-                    onClick={handleUpload}
-                  >
-                    Upload Data
-                  </button>
-                </div>
-
-              </div>
+              className="block w-full px-4 py-3 mb-4  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
+              data-rounded="rounded-lg"
+              data-primary="blue-500"
+              placeholder="Ipfs hash"
+            />
+            <div className="block">
+              <button
+                className="w-full px-3 py-4 text-black font-bold bg-violet-400 hover:bg-violet-500 rounded-lg"
+                data-primary="blue-600"
+                data-rounded="rounded-lg"
+                onClick={handleUpload}
+              >
+                Upload Data
+              </button>
             </div>
+          </div>
+        </div>
       </div>
     );
   };
@@ -288,64 +287,50 @@ const Upload = () => {
       <div className="top1 text-white flex flex-col justify-center items-center">
         <div className="top">
           <form className="form" onSubmit={handleSubmit}>
-            {/* <label htmlFor="file-upload" className="choose">
-              Choose File
-            </label>
-            <input
-              type="file"
-              id="file-upload"
-              name="data"
-              onChange={retrieveFile}
-              multiple
-            />
-            <span className="textArea text-black">
-              {" "}
-              Image: <u>{fileName}</u>
-            </span>
-            <button type="submit" className="upload" disabled={!file}>
-              Upload
-                      </button> */}
-                       <div className="relative">
-                  <label className="font-medium text-gray-400 ">
-                    Upload to IPFS
-                  </label>
-                  <div className="extraOutline p-4  bg-gray-700 w-max bg-whtie mt-4 rounded-lg ">
-                    <div className="file_upload p-5 relative border-4 border-dotted border-gray-500 rounded-lg">
-                      <svg
-                        className="text-violet-400 w-24 mx-auto mb-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+            <div className="relative">
+              <label className="font-medium text-gray-400 ">
+                Upload to IPFS
+              </label>
+              <div className="extraOutline p-4  bg-gray-700 w-max bg-whtie mt-4 rounded-lg ">
+                <div className="file_upload p-5 relative border-4 border-dotted border-gray-500 rounded-lg">
+                  <svg
+                    className="text-violet-400 w-24 mx-auto mb-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                  <div className="input_field flex flex-col w-max mx-auto text-center">
+                    <label>
+                      <input
+                        type="file"
+                        id="file-upload"
+                        name="data"
+                        onChange={retrieveFile}
+                        multiple
+                      />
+                      <button
+                        type="submit"
+                        className="text bg-violet-400 text-gray-800 border border-gray-800 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-violet-500"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
-                      <div className="input_field flex flex-col w-max mx-auto text-center">
-                        <label>
-                          <input
-                            type="file"
-              id="file-upload"
-              name="data"
-              onChange={retrieveFile}
-              multiple
-                          />
-                          <button type="submit" className="text bg-violet-400 text-gray-800 border border-gray-800 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-violet-500">
-                            Upload
-                          </button>
-                        </label>
+                        Upload
+                      </button>
+                    </label>
 
-                        <div className="title text-yellow-100 uppercase">
-                          {fileName}
-                        </div>
-                      </div>
+                    <div className="title text-yellow-100 uppercase">
+                      {fileName}
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
             {/* {ipfshash ? (
               <div>
                 <p className="text-black">
@@ -355,9 +340,8 @@ const Upload = () => {
             ) : null} */}
           </form>
         </div>
-        
-          </div>
-          <div className="pt-20">{renderUi()}</div>
+      </div>
+      <div className="pt-20">{renderUi()}</div>
     </>
   );
 };

@@ -1,72 +1,60 @@
 "use client";
 import React, { useState } from 'react';
+import { saveAs } from 'file-saver';
+import { decryptFile } from '../utils/decFile.js';
 
-const FileDecryption = () => {
-  const [file, setFile] = useState(null);
-  const [key, setKey] = useState('');
-  const [error, setError] = useState('');
+const DecryptionComponent = () => {
+  const [encryptedFileBlob, setEncryptedFileBlob] = useState(null);
+  const [hexKey, setHexKey] = useState('');
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
-  
-  const handleKeyChange = (event) => {
-    setKey(event.target.value);
+  const hexStringToBuffer = (hexString) => {
+    const buffer = new Uint8Array(hexString.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
+    return buffer;
   };
 
-  const decryptFile = async () => {
-    if (!file || !key) {
-      setError('Please select a file and enter a decryption key.');
+    const handleDecryption = () => {
+      
+    if (!encryptedFileBlob || !hexKey) {
+      alert('Please provide the encrypted file and the hex key.');
       return;
     }
 
-    try {
-      const fileContent = await readFile(file);
-      const decryptedData = await decryptData(fileContent, key);
-      const blob = new Blob([decryptedData], { type: file.type });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = file.name.replace('.enc', '');
-      document.body.appendChild(a);
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error decrypting file:', error);
-      setError('Error decrypting file. Please check the decryption key.');
-    }
+    // Convert the hex key to buffer
+    const symmetricKey = hexStringToBuffer(hexKey);
+
+    // Read the encrypted file
+    const reader = new FileReader();
+    reader.onload = function () {
+      // Decrypt the file
+      const decryptedData = decryptFile(Buffer.from(this.result), symmetricKey);
+
+      // Convert decrypted data to blob
+      const decryptedBlob = new Blob([decryptedData]);
+
+      // Save the decrypted blob as a file
+      saveAs(decryptedBlob, 'decrypted_file');
+    };
+    reader.readAsArrayBuffer(encryptedFileBlob);
   };
 
-  const readFile = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-      reader.readAsArrayBuffer(file);
-    });
-  };
-
-  const decryptData = async (fileContent, key) => {
-    const keyBuffer = hexStringToBuffer(key);
-    const iv = new Uint8Array(16); // IV must be the same as the one used during encryption
-    const algorithm = { name: 'AES-CBC', iv };
-    const cryptoKey = await crypto.subtle.importKey('raw', keyBuffer, algorithm, false, ['decrypt']);
-    const decryptedData = await crypto.subtle.decrypt(algorithm, cryptoKey, fileContent);
-    return decryptedData;
-  };
-
-  const hexStringToBuffer = (hexString) => {
-    return new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setEncryptedFileBlob(file);
   };
 
   return (
     <div>
-      <input type="file" onChange={handleFileChange} accept=".enc" />
-      <input type="text" value={key} onChange={handleKeyChange} placeholder="Enter decryption key" />
-      <button onClick={decryptFile}>Decrypt File</button>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      <h2>Decryption Component</h2>
+      <input type="file" onChange={handleFileChange} />
+      <input
+        type="text"
+        placeholder="Enter Hex Key"
+        value={hexKey}
+        onChange={(e) => setHexKey(e.target.value)}
+      />
+      <button onClick={handleDecryption}>Decrypt File</button>
     </div>
   );
 };
 
-export default FileDecryption;
+export default DecryptionComponent;
