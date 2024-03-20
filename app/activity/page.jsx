@@ -166,7 +166,7 @@ export default function DecryptForm() {
 
   return (
     <>
-      <div className="text-white">
+      {/* <div className="text-white">
         <form onSubmit={handleSubmit}>
           <label>
             Key 1:
@@ -202,23 +202,96 @@ export default function DecryptForm() {
         </form>
         {message && <p>{message}</p>}
         {error && <p>{error}</p>}
-      </div>
-      <div className="text-white">
-        <h2>Messages</h2>
-        <button onClick={fetchMessages}>Fetch Messages</button>
-        <ul>
-          {messages.map((message, index) => (
-            <li key={index}>
-              <strong>IPFS hash</strong> {message.name} <br /> <strong>Key:</strong>{" "}
-                  {message.key} <br /> <strong>Place:</strong> {message.place}
-                  <br />
-                    -----------------
-              </li>
-              
-              
-          ))}
-                  
-        </ul>
+          </div> */}
+      <div className="flex flex-col">
+        <div className="text-white">
+          <div className=" mt-16 md:mt-0 ">
+            <div
+              className=" h-auto p-8 py-10 bg-gray-800  border-gray-800 rounded-lg shadow-2xl px-7"
+              data-rounded="rounded-lg"
+              data-rounded-max="rounded-full"
+            >
+              <h3 className="mb-6  text-2xl font-medium text-center text-gray-300">
+                Reconstruct the Key{" "}
+              </h3>
+              <input
+                type="text"
+                value={key1}
+                onChange={(e) => setKey1(e.target.value)}
+                className="block w-full px-4 py-3 mb-4  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
+                data-rounded="rounded-lg"
+                data-primary="blue-500"
+                placeholder="Key1"
+              />
+              <input
+                type="text"
+                value={key2}
+                onChange={(e) => setKey2(e.target.value)}
+                className="block w-full px-4 py-3 mb-4  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
+                data-rounded="rounded-lg"
+                data-primary="blue-500"
+                placeholder="key2"
+              />
+              <input
+                type="text"
+                value={ipfshash}
+                onChange={(e) => setIpfsHash(e.target.value)}
+                className="block w-full px-4 py-3 mb-4  border-2 border-transparent bg-gray-500 border-slate-400 rounded-lg focus:ring text-white placeholder:text-gray-300 focus:ring-gray-500 focus:outline-none"
+                data-rounded="rounded-lg"
+                data-primary="blue-500"
+                placeholder="ipfs hash of encypted file"
+              />
+              <div className="block">
+                <button
+                  className="w-full px-3 py-4 text-black font-bold bg-violet-400 hover:bg-violet-500 rounded-lg"
+                  data-primary="blue-600"
+                  data-rounded="rounded-lg"
+                  onClick={handleSubmit}
+                >
+                  Reconstruct
+                </button>
+                <p className="pt-2">Key:</p>
+                {message && <p className="font-bold p-2">{message}</p>}
+                {error && <p>{error}</p>}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="text-white flex flex-col items-center">
+          <h2 className="font-bold p-2 m-2">Your Messages</h2>
+          <button
+            className="bg-violet-400 p-3 mb-2 rounded-md"
+            onClick={fetchMessages}
+          >
+            Fetch Messages
+          </button>
+
+          <div class="w-10/12 flex flex-col  bg-sate-800 rounded-lg shadow dark:bg-gray-800 ">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                class=" p-4 mb-2 bg-white rounded-md md:p-8 dark:bg-gray-800"
+                id="about"
+                role="tabpanel"
+                aria-labelledby="about-tab"
+              >
+                <h2 class="mb-1 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                  IPFS Hash :
+                </h2>
+                <p class="mb-1 text-gray-500 dark:text-gray-400">
+                  {message.name}
+                </p>
+                <h2 class="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                  Key :
+                </h2>
+                <p class="mb-3 text-gray-500 dark:text-gray-400 overflow-y-auto">
+                  {" "}
+                  {message.key}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
