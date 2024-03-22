@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// Define the schema
 const Ipfs_FileSchema2 = new mongoose.Schema(
   {
     public_key: {

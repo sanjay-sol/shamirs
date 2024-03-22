@@ -18,20 +18,15 @@ const DecryptionComponent = () => {
       alert('Please provide the encrypted file and the hex key.');
       return;
     }
-
-    // Convert the hex key to buffer
     const symmetricKey = hexStringToBuffer(hexKey);
 
-    // Read the encrypted file
     const reader = new FileReader();
     reader.onload = function () {
-      // Decrypt the file
+
       const decryptedData = decryptFile(Buffer.from(this.result), symmetricKey);
 
-      // Convert decrypted data to blob
       const decryptedBlob = new Blob([decryptedData]);
 
-      // Save the decrypted blob as a file
       saveAs(decryptedBlob, 'decrypted_file');
     };
     reader.readAsArrayBuffer(encryptedFileBlob);
