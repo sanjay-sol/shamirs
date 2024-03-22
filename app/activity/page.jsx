@@ -151,58 +151,21 @@ export default function DecryptForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/decrypt", {
+      const response = await axios.post("/api/reconstructkey", {
         key1,
         key2,
         ipfshash,
       });
       setMessage(response?.data?.message);
-      //   setError("error");
+
     } catch (error) {
-      //   setMessage("messa");
       setError(error?.response?.data?.message || "An error occurred");
     }
   };
 
   return (
     <>
-      {/* <div className="text-white">
-        <form onSubmit={handleSubmit}>
-          <label>
-            Key 1:
-            <input
-              type="text"
-              className="text-black p-2 m-2"
-              value={key1}
-              onChange={(e) => setKey1(e.target.value)}
-            />
-          </label>
-          <br />
-          <label>
-            Key 2:
-            <input
-              type="text"
-              className="text-black p-2 m-2"
-              value={key2}
-              onChange={(e) => setKey2(e.target.value)}
-            />
-          </label>
-          <br />
-          <label>
-            IPFS Hash:
-            <input
-              type="text"
-              className="text-black p-2 m-2"
-              value={ipfshash}
-              onChange={(e) => setIpfsHash(e.target.value)}
-            />
-          </label>
-          <br />
-          <button type="submit">Decrypt File</button>
-        </form>
-        {message && <p>{message}</p>}
-        {error && <p>{error}</p>}
-          </div> */}
+     
       <div className="flex flex-col">
         <div className="text-white">
           <div className=" mt-16 md:mt-0 ">

@@ -4,7 +4,7 @@ let isConnected = false;
 
 export const connectToDB = async () => {
   const MONGO_URL =
-    "mongodb+srv://sanjaysirangi:RObVhXU5WVl7SgnM@cluster0.1vtmcv5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    process.env.MONGO_URL;
   try {
     if (!MONGO_URL) return console.log("MongoDB url not found");
 
